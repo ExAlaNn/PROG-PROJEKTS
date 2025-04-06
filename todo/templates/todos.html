@@ -3,53 +3,66 @@
 {% load custom_filters %}
 
 {% block content %}
-<h1>Unfinished Tasks</h1>
+<div style="padding: 20px; background-color: #f9f9f9; min-height: 100vh;">
+    <div style="max-width: 900px; margin: 0 auto; background: #ffffff; padding: 30px; border-radius: 10px; box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);">
+        <h1 style="text-align: center; color: #333; font-size: 2rem; margin-bottom: 20px;">Your To-Do List</h1>
 
+        <!-- Add Task Section -->
+        <form method="post" style="margin-bottom: 30px;">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button type="submit" class="button is-primary" style="padding: 10px 20px; background-color: #007bff; color: white; border: none; border-radius: 5px; cursor: pointer; transition: background-color 0.3s;">
+                Add Task
+            </button>
+        </form>
 
-<form method="post">
-    {% csrf_token %}
-    {{ form.as_p }}
-    <button type="submit" class="button is-primary">Add Task</button>
-</form>
+        <hr style="margin: 20px 0; border: 0; border-top: 1px solid #ddd;">
 
-<hr>
+        <!-- Unfinished Tasks Section -->
+        <h2 style="color: #333; font-size: 1.5rem; margin-bottom: 15px;">Unfinished Tasks</h2>
+        <ul style="list-style: none; padding: 0; margin: 0;">
+            {% for todo in unfinished_todos %}
+            <li style="display: flex; justify-content: space-between; align-items: center; padding: 10px 15px; margin-bottom: 10px; background: #f8f9fa; border: 1px solid #ddd; border-radius: 5px;">
+                <div>
+                    <strong style="color: #333;">{{ todo.title }}</strong>
+                    <p style="color: #666; margin: 5px 0;">{{ todo.description }}</p>
+                    <p style="color: #999; font-size: 0.9rem;"><em>Category: {% if todo.category %}{{ todo.category.name }}{% else %}None{% endif %}</em></p>
+                </div>
+                <div>
+                    <a href="{% url 'mark_done' todo.id %}" class="button is-success" style="margin-right: 10px; padding: 5px 10px; background-color: #28a745; color: white; border: none; border-radius: 5px; text-decoration: none;">Mark as Done</a>
+                    <a href="{% url 'edit_task' todo.id %}" class="button is-primary" style="padding: 5px 10px; background-color: #007bff; color: white; border: none; border-radius: 5px; text-decoration: none;">Edit</a>
+                </div>
+            </li>
+            {% empty %}
+            <p style="text-align: center; color: #666;">No unfinished tasks!</p>
+            {% endfor %}
+        </ul>
 
+        <hr style="margin: 20px 0; border: 0; border-top: 1px solid #ddd;">
 
-<ul>
-    {% for todo in unfinished_todos %}
-    <li>
-        <div>
-            <strong>{{ todo.title }}</strong> - {{ todo.description }}
-            <p><em>Category: {% if todo.category %}{{ todo.category.name }}{% else %}None{% endif %}</em></p>
-        </div>
-        <a href="{% url 'mark_done' todo.id %}" class="button is-success">Mark as Done</a>
-        <a href="{% url 'edit_task' todo.id %}" class="button is-primary">Edit</a>
-    </li>
-    {% empty %}
-    <p>No unfinished tasks!</p>
-    {% endfor %}
-</ul>
+        <!-- Finished Tasks Section -->
+        <h2 style="color: #333; font-size: 1.5rem; margin-bottom: 15px;">Finished Tasks</h2>
+        <a href="{% url 'delete_finished_tasks' %}" class="button is-danger" style="margin-bottom: 10px; padding: 10px 20px; background-color: #dc3545; color: white; border: none; border-radius: 5px; text-decoration: none;">Delete All Finished Tasks</a>
+        <ul style="list-style: none; padding: 0; margin: 0;">
+            {% for todo in finished_todos %}
+            <li style="padding: 10px 15px; margin-bottom: 10px; background: #f8f9fa; border: 1px solid #ddd; border-radius: 5px; text-decoration: line-through; color: #999;">
+                <div>
+                    <strong>{{ todo.title }}</strong>
+                    <p>{{ todo.description }}</p>
+                </div>
+            </li>
+            {% empty %}
+            <p style="text-align: center; color: #666;">No finished tasks!</p>
+            {% endfor %}
+        </ul>
 
-<h1>Finished Tasks</h1>
-<a href="{% url 'delete_finished_tasks' %}" class="button is-danger" style="margin-bottom: 10px;">Delete All Finished Tasks</a>
+        <hr style="margin: 20px 0; border: 0; border-top: 1px solid #ddd;">
 
-<ul>
-    {% for todo in finished_todos %}
-    <li style="text-decoration: line-through; color: red;">
-        <div>
-            <strong>{{ todo.title }}</strong> - {{ todo.description }}
-        </div>
-    </li>
-    {% empty %}
-    <p>No finished tasks!</p>
-    {% endfor %}
-</ul>
-
-<h1>Task Calendar</h1>
-
-
-<div id="calendar"></div>
-
+        <!-- Task Calendar Section -->
+        <h2 style="color: #333; font-size: 1.5rem; margin-bottom: 15px;">Task Calendar</h2>
+        <div id="calendar" style="background: #ffffff; padding: 20px; border-radius: 10px; box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);"></div>
+    </div>
+</div>
 
 <link href="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.8/index.global.min.css" rel="stylesheet">
 <script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.8/index.global.min.js"></script>
@@ -59,8 +72,8 @@
     document.addEventListener('DOMContentLoaded', function () {
         var calendarEl = document.getElementById('calendar');
         var calendar = new FullCalendar.Calendar(calendarEl, {
-            initialView: 'dayGridMonth', 
-            editable: true, 
+            initialView: 'dayGridMonth',
+            editable: true,
             events: [
                 {% for todo in unfinished_todos %}
                 {
@@ -73,7 +86,7 @@
             ],
             eventDrop: function(info) {
                 var taskId = info.event.id;
-                var newDate = info.event.start.toISOString().split('T')[0]; 
+                var newDate = info.event.start.toISOString().split('T')[0];
 
                 fetch("{% url 'update_task_date' 0 %}".replace('0', taskId), {
                     method: 'POST',
