@@ -7,7 +7,6 @@
     <div style="max-width: 900px; margin: 0 auto; background: #ffffff; padding: 30px; border-radius: 10px; box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);">
         <h1 style="text-align: center; color: #333; font-size: 2rem; margin-bottom: 20px;">Your To-Do List</h1>
 
-        <!-- Add Task Section -->
         <form method="post" style="margin-bottom: 30px;">
             {% csrf_token %}
             {{ form.as_p }}
@@ -18,7 +17,6 @@
 
         <hr style="margin: 20px 0; border: 0; border-top: 1px solid #ddd;">
 
-        <!-- Unfinished Tasks Section -->
         <h2 style="color: #333; font-size: 1.5rem; margin-bottom: 15px;">Unfinished Tasks</h2>
         <ul style="list-style: none; padding: 0; margin: 0;">
             {% for todo in unfinished_todos %}
@@ -58,7 +56,18 @@
 
         <hr style="margin: 20px 0; border: 0; border-top: 1px solid #ddd;">
 
-        <!-- Task Calendar Section -->
+        <div style="text-align: center; margin-top: 20px;">
+            <div class="pagination">
+                {% if page_obj.has_previous %}
+                    <a href="?page={{ page_obj.previous_page_number }}" class="button is-primary">Previous</a>
+                {% endif %}
+                <span>Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}</span>
+                {% if page_obj.has_next %}
+                    <a href="?page={{ page_obj.next_page_number }}" class="button is-primary">Next</a>
+                {% endif %}
+            </div>
+        </div>
+
         <h2 style="color: #333; font-size: 1.5rem; margin-bottom: 15px;">Task Calendar</h2>
         <div id="calendar" style="background: #ffffff; padding: 20px; border-radius: 10px; box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);"></div>
     </div>
@@ -68,7 +77,6 @@
 <script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.8/index.global.min.js"></script>
 
 <script>
-    /* eslint-disable */
     document.addEventListener('DOMContentLoaded', function () {
         var calendarEl = document.getElementById('calendar');
         var calendar = new FullCalendar.Calendar(calendarEl, {
@@ -111,6 +119,5 @@
         });
         calendar.render();
     });
-    /* eslint-enable */
 </script>
 {% endblock %}

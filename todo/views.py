@@ -55,31 +55,16 @@ def logout_view(request):
 
 @login_required
 def todos(request):
-    category_filter = request.GET.get('category')  
     if request.method == 'POST':
         form = TodoForm(request.POST)
         if form.is_valid():
-            todo = form.save(commit=False)
-            if not todo.category:  
-                messages.error(request, 'Please select a category')  
-            else:
-                todo.user = request.user  
-                todo.save()
-                return redirect('todos')
+            form.save()
+            return redirect('todos')  # Redirect after saving
     else:
         form = TodoForm()
 
-    
-    unfinished_todos = Todo.objects.filter(user=request.user, is_done=False)
-    if category_filter:  
-        unfinished_todos = unfinished_todos.filter(category__id=category_filter)
-    finished_todos = Todo.objects.filter(user=request.user, is_done=True)
-    return render(request, 'todos.html', {
-        'unfinished_todos': unfinished_todos,
-        'finished_todos': finished_todos,
-        'form': form,
-        'category_filter': category_filter, 
-    })
+    todos = Todo.objects.all()
+    return render(request, 'todos.html', {'form': form, 'todos': todos})
 
 @login_required
 def mark_done(request, todo_id):

@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{% block title %}My App{% endblock %}</title>
     <link rel="stylesheet" href="{% static 'todo/styles.css' %}">
+    <link rel="icon" href="{% static 'favicon.ico' %}" type="image/x-icon">
     <style>
       .button {
           display: inline-block;
@@ -37,8 +38,8 @@
           justify-content: space-between;
           align-items: center;
           padding: 10px 20px;
-          background-color: #f4f4f4;
-          border-bottom: 1px solid #ddd;
+          background-color: #1e1e1e; 
+          color: #ffffff; 
       }
 
       header p {
@@ -47,12 +48,7 @@
       }
     </style>
 </head>
-<body>
-    <header>
-        {% if user.is_authenticated %}
-            <a href="{% url 'logout' %}" class="button is-danger">Logout</a>
-        {% endif %}
-    </header>
+<body class="dark-mode">
     {% if messages %}
     <div class="messages">
         {% for message in messages %}
