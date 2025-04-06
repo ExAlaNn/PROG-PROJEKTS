@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+
+{% block content %}
+{% load static %}
+<link rel="stylesheet" href="{% static 'todo/styles.css' %}">
+<div style="display: flex; justify-content: center; align-items: center; height: 100vh;">
+    <div style="width: 300px;">
+        <h1 style="text-align: center;">Register</h1>
+        <form method="post" style="background: #ffffff; padding: 20px; border-radius: 8px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);">
+            {% csrf_token %}
+            <div style="margin-bottom: 15px;">
+                <label for="username">Username:</label>
+                <input type="text" id="username" name="username" class="input" style="width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 4px;">
+            </div>
+            <div style="margin-bottom: 15px;">
+                <label for="password">Password:</label>
+                <input type="password" id="password" name="password" class="input" style="width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 4px;">
+            </div>
+            <div style="margin-bottom: 15px;">
+                <label for="confirm_password">Confirm Password:</label>
+                <input type="password" id="confirm_password" name="confirm_password" class="input" style="width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 4px;">
+            </div>
+            <button type="submit" class="button is-primary" style="width: 100%; padding: 10px;">Register</button>
+        </form>
+    </div>
+</div>
+{% endblock %}
+<footer>
+    <p>&copy; 2025 Alens Bulkovskis PROG2 projekts. All rights reserved.</p>
+</footer>

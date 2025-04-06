@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div style="display: flex; justify-content: center; align-items: center; height: 100vh;">
+    <div style="width: 300px;">
+        <h1 style="text-align: center;">Login</h1>
+        <form method="post">
+            {% csrf_token %}
+            <div style="margin-bottom: 15px;">
+                <label for="username">Username</label>
+                <input type="text" id="username" name="username" class="input" style="width: 100%;">
+            </div>
+            <div style="margin-bottom: 15px;">
+                <label for="password">Password</label>
+                <input type="password" id="password" name="password" class="input" style="width: 100%;">
+            </div>
+            <button type="submit" class="button is-primary" style="width: 100%;">Login</button>
+        </form>
+        <p style="text-align: center; margin-top: 10px;">
+            Don't have an account? <a href="{% url 'register' %}" style="color: #007bff;">Register</a>
+        </p>
+    </div>
+</div>
+{% endblock %}
+<footer>
+    <p>&copy; 2025 Alens Bulkovskis PROG2 projekts. All rights reserved.</p>
+</footer>
