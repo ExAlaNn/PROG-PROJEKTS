@@ -58,13 +58,21 @@ def todos(request):
     if request.method == 'POST':
         form = TodoForm(request.POST)
         if form.is_valid():
-            form.save()
-            return redirect('todos')  # Redirect after saving
+            todo = form.save(commit=False)
+            todo.user = request.user  # Assign the logged-in user to the task
+            todo.save()
+            return redirect('todos')
     else:
         form = TodoForm()
 
-    todos = Todo.objects.all()
-    return render(request, 'todos.html', {'form': form, 'todos': todos})
+    unfinished_todos = Todo.objects.filter(user=request.user, is_done=False)  
+    finished_todos = Todo.objects.filter(user=request.user, is_done=True)  
+
+    return render(request, 'todos.html', {
+        'form': form,
+        'unfinished_todos': unfinished_todos,
+        'finished_todos': finished_todos
+    })
 
 @login_required
 def mark_done(request, todo_id):

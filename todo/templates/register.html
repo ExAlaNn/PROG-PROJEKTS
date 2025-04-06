@@ -3,24 +3,52 @@
 {% block content %}
 {% load static %}
 <link rel="stylesheet" href="{% static 'todo/styles.css' %}">
+<style>
+    input[type="text"], input[type="password"], input[type="email"] {
+        width: 85%; 
+        padding: 0.8rem;
+        margin: 0.5rem 0;
+        margin-left: -10px; 
+        border: 1px solid #bdc3c7;
+        border-radius: 5px;
+        font-size: 1rem;
+        font-family: 'Poppins', sans-serif;
+        box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1);
+    }
+
+    input[type="text"]:focus, input[type="password"]:focus, input[type="email"]:focus {
+        border-color: #1abc9c;
+        outline: none;
+        box-shadow: 0 0 5px rgba(26, 188, 156, 0.5);
+    }
+</style>
 <div style="display: flex; justify-content: center; align-items: center; height: 100vh;">
-    <div style="width: 300px;">
-        <h1 style="text-align: center;">Register</h1>
-        <form method="post" style="background: #ffffff; padding: 20px; border-radius: 8px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);">
+    <div style="width: 300px; background-color: #2c3e50; padding: 20px; border-radius: 10px; color: #ecf0f1; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);">
+        <h1 style="text-align: center; color: #1abc9c;">Register</h1>
+        {% if error_message == 'The given username must be set' %}
+            {% with 'Please Insert a username' as error_message %}
+                {% if error_message %}
+                <div style="color: #e74c3c; text-align: center; margin-bottom: 15px; font-weight: bold;">
+                    {{ error_message }}
+                </div>
+                {% endif %}
+            {% endwith %}
+        {% endif %}
+        <form method="post">
             {% csrf_token %}
             <div style="margin-bottom: 15px;">
-                <label for="username">Username:</label>
-                <input type="text" id="username" name="username" class="input" style="width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 4px;">
+                <label for="username" style="font-weight: bold; color: #ecf0f1;">Username</label>
+                <input type="text" id="username" name="username" style="width: 100%; padding: 10px; border: 1px solid #34495e; border-radius: 5px; background-color: #34495e; color: #ecf0f1;">
             </div>
             <div style="margin-bottom: 15px;">
-                <label for="password">Password:</label>
-                <input type="password" id="password" name="password" class="input" style="width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 4px;">
+                <label for="password" style="font-weight: bold; color: #ecf0f1;">Password</label>
+                <input type="password" id="password" name="password" style="width: 100%; padding: 10px; border: 1px solid #34495e; border-radius: 5px; background-color: #34495e; color: #ecf0f1;">
             </div>
             <div style="margin-bottom: 15px;">
-                <label for="confirm_password">Confirm Password:</label>
-                <input type="password" id="confirm_password" name="confirm_password" class="input" style="width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 4px;">
+                <label for="confirm_password" style="font-weight: bold; color: #ecf0f1;">Confirm Password</label>
+                <input type="password" id="confirm_password" name="confirm_password" style="width: 100%; padding: 10px; border: 1px solid #34495e; border-radius: 5px; background-color: #34495e; color: #ecf0f1;">
             </div>
-            <button type="submit" class="button is-primary" style="width: 100%; padding: 10px;">Register</button>
+            <button type="submit" style="width: 100%; padding: 10px; background-color: #1abc9c; border: none; border-radius: 5px; color: white; font-size: 1rem; cursor: pointer;">Register</button>
         </form>
     </div>
 </div>

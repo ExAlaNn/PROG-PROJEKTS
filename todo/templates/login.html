@@ -2,16 +2,16 @@
 
 {% block content %}
 <div style="display: flex; justify-content: center; align-items: center; height: 100vh; background-color: #f0f8ff;">
-    <div style="width: 350px; background: #ffffff; padding: 30px; border-radius: 10px; box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);">
+    <div style="width: 350px; background: #e6f7ff; padding: 30px; border-radius: 10px; box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);">
         <h1 style="text-align: center; color: #333; font-size: 1.8rem; margin-bottom: 20px;">Welcome Back!</h1>
         <p style="text-align: center; color: #666; margin-bottom: 20px;">Please log in to access your tasks.</p>
         <form method="post">
             {% csrf_token %}
-            <div style="margin-bottom: 15px;">
+            <div style="margin-bottom: 15px; background-color: #e6f7ff; padding: 10px; border-radius: 5px;">
                 <label for="username" style="font-weight: bold; color: #333;">Username</label>
                 <input type="text" id="username" name="username" class="input" style="width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 5px;">
             </div>
-            <div style="margin-bottom: 15px;">
+            <div style="margin-bottom: 15px; background-color: #e6f7ff; padding: 10px; border-radius: 5px;">
                 <label for="password" style="font-weight: bold; color: #333;">Password</label>
                 <input type="password" id="password" name="password" class="input" style="width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 5px;">
             </div>

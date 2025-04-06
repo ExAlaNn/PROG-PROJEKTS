@@ -3,73 +3,57 @@
 {% load custom_filters %}
 
 {% block content %}
-<div style="padding: 20px; background-color: #f9f9f9; min-height: 100vh;">
-    <div style="max-width: 900px; margin: 0 auto; background: #ffffff; padding: 30px; border-radius: 10px; box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);">
-        <h1 style="text-align: center; color: #333; font-size: 2rem; margin-bottom: 20px;">Your To-Do List</h1>
+<div style="position: absolute; top: 20px; right: 20px;">
+    <a href="{% url 'logout' %}" style="background-color: #e74c3c; color: white; text-decoration: none; padding: 0.5rem 1rem; border-radius: 5px; font-size: 1rem; font-weight: bold;">Logout</a>
+</div>
 
-        <form method="post" style="margin-bottom: 30px;">
+<div class="todos-container" style="display: flex; justify-content: center; align-items: center; flex-direction: column; padding: 2rem; font-family: 'Roboto', sans-serif;">
+    <div class="todos-box" style="background: #2c3e50; padding: 2rem; border-radius: 10px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3); width: 100%; max-width: 800px; color: #ecf0f1;">
+        <h1 style="text-align: center; color: #1abc9c; font-size: 3rem; font-weight: bold; font-family: 'Poppins', sans-serif; margin-bottom: 2rem;">Manage Your Tasks</h1>
+        <p style="text-align: center; color: #bdc3c7; font-size: 1.2rem; font-family: 'Poppins', sans-serif; margin-bottom: 2rem;">Stay organized and productive by keeping track of your tasks below.</p>
+
+        <form method="post" style="margin-bottom: 2rem;">
             {% csrf_token %}
-            {{ form.as_p }}
-            <button type="submit" class="button is-primary" style="padding: 10px 20px; background-color: #007bff; color: white; border: none; border-radius: 5px; cursor: pointer; transition: background-color 0.3s;">
-                Add Task
-            </button>
+            <div class="form-group" style="margin-bottom: 1.5rem;">
+                {{ form.as_p|safe }}
+            </div>
+            <div style="text-align: center;">
+                <button type="submit" class="is-primary" style="background-color: #1abc9c; color: white; border: none; padding: 0.8rem 1.5rem; border-radius: 5px; font-size: 1rem; font-weight: bold; cursor: pointer;">Add Task</button>
+            </div>
         </form>
 
-        <hr style="margin: 20px 0; border: 0; border-top: 1px solid #ddd;">
+        <div class="tasks-section" style="margin-top: 2rem;">
+            <h2 style="color: #1abc9c; font-size: 2rem; font-weight: bold; margin-bottom: 1rem;">Unfinished Tasks</h2>
+            <ul style="list-style: none; padding: 0;">
+                {% for task in unfinished_todos %}
+                <li style="background: #34495e; margin: 0.5rem 0; padding: 1rem; border-radius: 5px; font-size: 1.1rem; display: flex; justify-content: space-between; align-items: center;">
+                    <span style="text-decoration: {% if task.is_done %}line-through{% else %}none{% endif %}; font-weight: bold;">{{ task.title }}</span>
+                    <div>
+                        <a href="{% url 'edit_task' task.id %}" style="margin-right: 10px; color: #3498db; text-decoration: none; font-weight: bold;">Edit</a>
+                        <a href="{% url 'mark_done' task.id %}" style="color: #1abc9c; text-decoration: none; font-weight: bold;">Mark as Done</a>
+                    </div>
+                </li>
+                {% endfor %}
+            </ul>
 
-        <h2 style="color: #333; font-size: 1.5rem; margin-bottom: 15px;">Unfinished Tasks</h2>
-        <ul style="list-style: none; padding: 0; margin: 0;">
-            {% for todo in unfinished_todos %}
-            <li style="display: flex; justify-content: space-between; align-items: center; padding: 10px 15px; margin-bottom: 10px; background: #f8f9fa; border: 1px solid #ddd; border-radius: 5px;">
-                <div>
-                    <strong style="color: #333;">{{ todo.title }}</strong>
-                    <p style="color: #666; margin: 5px 0;">{{ todo.description }}</p>
-                    <p style="color: #999; font-size: 0.9rem;"><em>Category: {% if todo.category %}{{ todo.category.name }}{% else %}None{% endif %}</em></p>
-                </div>
-                <div>
-                    <a href="{% url 'mark_done' todo.id %}" class="button is-success" style="margin-right: 10px; padding: 5px 10px; background-color: #28a745; color: white; border: none; border-radius: 5px; text-decoration: none;">Mark as Done</a>
-                    <a href="{% url 'edit_task' todo.id %}" class="button is-primary" style="padding: 5px 10px; background-color: #007bff; color: white; border: none; border-radius: 5px; text-decoration: none;">Edit</a>
-                </div>
-            </li>
-            {% empty %}
-            <p style="text-align: center; color: #666;">No unfinished tasks!</p>
-            {% endfor %}
-        </ul>
-
-        <hr style="margin: 20px 0; border: 0; border-top: 1px solid #ddd;">
-
-        <!-- Finished Tasks Section -->
-        <h2 style="color: #333; font-size: 1.5rem; margin-bottom: 15px;">Finished Tasks</h2>
-        <a href="{% url 'delete_finished_tasks' %}" class="button is-danger" style="margin-bottom: 10px; padding: 10px 20px; background-color: #dc3545; color: white; border: none; border-radius: 5px; text-decoration: none;">Delete All Finished Tasks</a>
-        <ul style="list-style: none; padding: 0; margin: 0;">
-            {% for todo in finished_todos %}
-            <li style="padding: 10px 15px; margin-bottom: 10px; background: #f8f9fa; border: 1px solid #ddd; border-radius: 5px; text-decoration: line-through; color: #999;">
-                <div>
-                    <strong>{{ todo.title }}</strong>
-                    <p>{{ todo.description }}</p>
-                </div>
-            </li>
-            {% empty %}
-            <p style="text-align: center; color: #666;">No finished tasks!</p>
-            {% endfor %}
-        </ul>
-
-        <hr style="margin: 20px 0; border: 0; border-top: 1px solid #ddd;">
-
-        <div style="text-align: center; margin-top: 20px;">
-            <div class="pagination">
-                {% if page_obj.has_previous %}
-                    <a href="?page={{ page_obj.previous_page_number }}" class="button is-primary">Previous</a>
-                {% endif %}
-                <span>Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}</span>
-                {% if page_obj.has_next %}
-                    <a href="?page={{ page_obj.next_page_number }}" class="button is-primary">Next</a>
-                {% endif %}
-            </div>
+            <h2 style="color: #1abc9c; font-size: 2rem; font-weight: bold; margin-top: 2rem; margin-bottom: 1rem;">Finished Tasks</h2>
+            <ul style="list-style: none; padding: 0;">
+                {% for task in finished_todos %}
+                <li style="background: #34495e; margin: 0.5rem 0; padding: 1rem; border-radius: 5px; font-size: 1.1rem; display: flex; justify-content: space-between; align-items: center;">
+                    <span style="text-decoration: line-through; font-weight: bold; color: #95a5a6;">{{ task.title }}</span>
+                    <a href="{% url 'edit_task' task.id %}" style="color: #3498db; text-decoration: none; font-weight: bold;">Edit</a>
+                </li>
+                {% endfor %}
+            </ul>
         </div>
 
-        <h2 style="color: #333; font-size: 1.5rem; margin-bottom: 15px;">Task Calendar</h2>
-        <div id="calendar" style="background: #ffffff; padding: 20px; border-radius: 10px; box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);"></div>
+        <div style="text-align: center; margin-top: 2rem;">
+            <a href="{% url 'delete_finished_tasks' %}" style="background-color: #f44336; color: white; text-decoration: none; padding: 0.8rem 1.5rem; border-radius: 5px; font-size: 1rem; font-weight: bold; cursor: pointer;">Clear Finished Tasks</a>
+        </div>
+
+        <div id="calendar" style="margin-top: 2rem; background-color: #1e272e; padding: 20px; border-radius: 10px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3); color: #ecf0f1;">
+            <h2 style="text-align: center; color: #1abc9c; font-size: 2rem; font-weight: bold; margin-bottom: 1rem;">Task Calendar</h2>
+        </div>
     </div>
 </div>
 
@@ -120,4 +104,23 @@
         calendar.render();
     });
 </script>
+
+<style>
+    input[type="text"], textarea {
+        width: 100%;
+        padding: 0.8rem;
+        margin: 0.5rem 0;
+        border: 1px solid #bdc3c7;
+        border-radius: 5px;
+        font-size: 1rem;
+        font-family: 'Poppins', sans-serif;
+        box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1);
+    }
+
+    input[type="text"]:focus, textarea:focus {
+        border-color: #1abc9c;
+        outline: none;
+        box-shadow: 0 0 5px rgba(26, 188, 156, 0.5);
+    }
+</style>
 {% endblock %}

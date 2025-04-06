@@ -1,6 +1,10 @@
 body {
-    background-color: #121212; /* Dark background */
-    color: #ffffff; /* Light text */
+    font-family: 'Roboto', sans-serif;
+    background-color: #1e1e1e; 
+    color: #ecf0f1; 
+    margin: 0;
+    padding: 0;
+    line-height: 1.6;
 }
 
 body.dark-mode {
@@ -8,11 +12,61 @@ body.dark-mode {
     color: #ffffff;
 }
 
+input, textarea, select {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 15px;
+    border: 1px solid #34495e;
+    border-radius: 5px;
+    background-color: #2c3e50;
+    color: #ecf0f1;
+    font-size: 1rem;
+    font-family: 'Roboto', sans-serif;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+input:focus, textarea:focus, select:focus {
+    border-color: #1abc9c;
+    box-shadow: 0 0 5px rgba(26, 188, 156, 0.5);
+    outline: none;
+}
+
 #calendar {
     max-width: 900px;
     margin: 40px auto;
+    padding: 20px;
+    background-color: #2c3e50;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+    font-family: 'Roboto', sans-serif;
+    color: #ecf0f1;
+}
+
+#calendar .fc-toolbar {
+    background-color: #34495e;
+    color: white;
     padding: 10px;
-    background-color: #ffffff;
-    border-radius: 8px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    border-radius: 5px;
+}
+
+#calendar .fc-daygrid-day {
+    background-color: #34495e;
+    border: 1px solid #2c3e50;
+    border-radius: 5px;
+    transition: background-color 0.3s ease;
+    color: #ecf0f1;
+}
+
+#calendar .fc-daygrid-day:hover {
+    background-color: #3b5998;
+}
+
+#calendar .fc-event {
+    background-color: #1abc9c;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    padding: 5px;
+    font-size: 0.9rem;
 }

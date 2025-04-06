@@ -110,7 +110,7 @@ header a {
 }
 
 h1, h2 {
-    color: #333;
+    color: #007bff; /* Changed from green to blue */
     text-align: center;
     margin-bottom: 20px;
 }
@@ -154,10 +154,12 @@ form {
 }
 
 form label {
+    font-family: 'Roboto', sans-serif;
+    font-size: 1.2rem;
     font-weight: bold;
+    color: #ecf0f1;
     margin-bottom: 5px;
     display: block;
-    color: #333;
 }
 
 form input, form button {
@@ -230,4 +232,119 @@ footer {
     color: #ffffff; 
     font-size: 1rem;
     box-shadow: 0 -2px 4px rgba(0, 0, 0, 0.1);
+}
+
+label {
+    font-family: 'Arial', sans-serif;
+    font-size: 1.1rem;
+    font-weight: bold;
+    color: #333;
+    margin-bottom: 5px;
+    display: block;
+}
+
+input[type="text"], textarea, select {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 15px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 1rem;
+    font-family: 'Arial', sans-serif;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+input[type="text"]:focus, textarea:focus, select:focus {
+    border-color: #007bff;
+    box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+    outline: none;
+}
+
+#calendar {
+    background-color: #2c3e50;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+    font-family: 'Roboto', sans-serif;
+    color: #ecf0f1;
+}
+
+#calendar .fc-toolbar {
+    background-color: #34495e;
+    color: white;
+    padding: 10px;
+    border-radius: 5px;
+}
+
+#calendar .fc-daygrid-day {
+    background-color: #34495e;
+    border: 1px solid #2c3e50;
+    border-radius: 5px;
+    transition: background-color 0.3s ease;
+    color: #ecf0f1;
+}
+
+#calendar .fc-daygrid-day:hover {
+    background-color: #3b5998;
+}
+
+#calendar .fc-event {
+    background-color: #1abc9c;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    padding: 5px;
+    font-size: 0.9rem;
+}
+
+.tasks-section h2 {
+    font-family: 'Roboto', sans-serif;
+    font-size: 1.8rem;
+    font-weight: bold;
+    color: #1abc9c;
+    margin-bottom: 15px;
+    text-align: center;
+}
+
+.tasks-section ul li {
+    background: #2c3e50;
+    margin: 10px 0;
+    padding: 15px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    color: #ecf0f1;
+    font-family: 'Roboto', sans-serif;
+    font-size: 1.1rem;
+}
+
+.tasks-section ul li:hover {
+    background: #34495e;
+    transition: background-color 0.3s ease;
+}
+
+.tasks-section ul li a {
+    text-decoration: none;
+    color: #1abc9c;
+    font-weight: bold;
+    margin-left: 10px;
+    transition: color 0.3s ease;
+}
+
+.tasks-section ul li a:hover {
+    color: #16a085;
+}
+
+.tasks-section ul li span {
+    text-decoration: none;
+    font-weight: bold;
+    color: #ecf0f1;
+}
+
+.tasks-section ul li span.done {
+    text-decoration: line-through;
+    color: #95a5a6;
 }

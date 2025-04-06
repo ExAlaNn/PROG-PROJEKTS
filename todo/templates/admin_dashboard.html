@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="dashboard-container">
+    <h1 style="text-align: center; color: #4CAF50;">Admin Dashboard</h1>
+
+    <div class="dashboard-section">
+        <h2>Manage Users</h2>
+        <p>View and manage all registered users in the system.</p>
+        <button class="is-primary">View Users</button>
+    </div>
+
+    <div class="dashboard-section">
+        <h2>Manage Tasks</h2>
+        <p>Oversee all tasks created by users and their statuses.</p>
+        <button class="is-success">View Tasks</button>
+    </div>
+
+    <div class="dashboard-section">
+        <h2>System Settings</h2>
+        <p>Adjust system-wide settings and configurations.</p>
+        <button class="is-danger">Settings</button>
+    </div>
+</div>
+{% endblock %}
